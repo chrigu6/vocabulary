@@ -29,16 +29,18 @@
           <a class="navbar-brand" href="">Vocabulary Trainer</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form action="/trainer/registerUser" class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="User_Name" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-              <button type="button" onclick="location.href='/trainer/registerUser';" class="btn btn-default">Sign up</button>
-          </form>
+            {% if user.is_authenticated %}
+                  <form action="/trainer/login" class="navbar-form navbar-right">
+                    <button type="button" onclick="location.href='/trainer/logout';" class="btn btn-default">Logout</button>
+                  </form>
+
+            {% else %}
+                <form action="/trainer/login" class="navbar-form navbar-right">
+                    <button type="submit" class="btn btn-success">Sign in</button>
+                    <button type="button" onclick="location.href='/trainer/registerUser';" class="btn btn-default">Sign up</button>
+                  </form>
+            {% endif %}
+
 
         </div><!--/.navbar-collapse -->
       </div>
