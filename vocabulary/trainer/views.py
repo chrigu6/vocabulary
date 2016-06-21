@@ -1,3 +1,4 @@
+from django.db.backends.dummy.base import IntegrityError
 from django.http.response import HttpResponse
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
@@ -8,6 +9,7 @@ from django.template import loader, RequestContext
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from forms import UserCreateForm, LoginForm, UploadFileForm
+from trainer.models import Word, Language
 
 
 def index(request):
@@ -45,14 +47,29 @@ def login_user(request):
         return render(request, 'trainer/login.html', {'form': form})
 
 def logout_user(request):
-    #pdb.set_trace()
     logout(request)
     return redirect('index')
 
 
 def populate_words(request):
     if request.method == 'POST':
-        language = request.POST['language']
+        language = Language.objects.get(name=request.POST['language'])
+        file = request.FILES['file']
+        words = []
+        for line in file:
+            if line == "\n" or line == " \n":
+                continue
+            word = Word(word=line, language=language)
+            words.append(word.word)
+            try:
+                word.save()
+            except:
+                IntegrityError()
+
+
+        context = {"words": words}
+        return render(request, 'trainer/upload_success.html', context)
+
 
     else:
         form = UploadFileForm()
@@ -61,3 +78,5 @@ def populate_words(request):
 
     return render(request, 'trainer/populate.html')
 
+def upload_success():
+    print "Success!"

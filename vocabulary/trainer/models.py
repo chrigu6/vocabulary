@@ -1,10 +1,9 @@
-from __future__ import unicode_literals
-
 from django.contrib.auth.models import User
 from django.db import models
 
 class Language(models.Model):
     name = models.CharField(default="", max_length=200, primary_key=True)
+    short = models.CharField(default="", max_length=2)
 
     def __unicode__(self):
         return self.name
@@ -14,15 +13,16 @@ class Language(models.Model):
         verbose_name_plural = 'Languages'
 
 class Word(models.Model):
-    word = models.CharField(default="", max_length=200, primary_key=True)
+    word = models.CharField(default="", max_length=200)
     language = models.ForeignKey(Language)
 
     def __unicode__(self):
-        return self.word
+        return self.word+ " ("+self.language.short+")"
 
     class Meta:
         verbose_name = 'Word'
         verbose_name_plural = 'Words'
+        unique_together = (("word", "language"),)
 
 class Card(models.Model):
     asked = models.IntegerField(default=0)

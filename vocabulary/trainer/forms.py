@@ -32,5 +32,5 @@ class LoginForm(forms.Form):
 
 
 class UploadFileForm(forms.Form):
-    language = forms.ModelChoiceField(label='Language', queryset=Language, required=True)
+    language = forms.ModelChoiceField(label='Language', queryset=Language.objects.all(), required=True)
     file = forms.FileField(required=True)
