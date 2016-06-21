@@ -7,7 +7,7 @@ import pdb;
 from django.template import loader, RequestContext
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from forms import UserCreateForm, LoginForm
+from forms import UserCreateForm, LoginForm, UploadFileForm
 
 
 def index(request):
@@ -48,4 +48,16 @@ def logout_user(request):
     #pdb.set_trace()
     logout(request)
     return redirect('index')
+
+
+def populate_words(request):
+    if request.method == 'POST':
+        language = request.POST['language']
+
+    else:
+        form = UploadFileForm()
+        return render(request, 'trainer/populate.html', {'form': form})
+
+
+    return render(request, 'trainer/populate.html')
 

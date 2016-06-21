@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class Language(models.Model):
-    name = models.CharField(default="", max_length=200)
+    name = models.CharField(default="", max_length=200, primary_key=True)
 
     def __unicode__(self):
         return self.name
@@ -14,7 +14,7 @@ class Language(models.Model):
         verbose_name_plural = 'Languages'
 
 class Word(models.Model):
-    word = models.CharField(default="", max_length=200)
+    word = models.CharField(default="", max_length=200, primary_key=True)
     language = models.ForeignKey(Language)
 
     def __unicode__(self):
