@@ -5,6 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 from trainer.models import Language
 
 
+class AddWordForm(forms.Form):
+    language = forms.ModelChoiceField(queryset=Language.objects.all())
+    word = forms.CharField(required=True)
+
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(required=True)
@@ -32,5 +36,5 @@ class LoginForm(forms.Form):
 
 
 class UploadFileForm(forms.Form):
-    language = forms.ModelChoiceField(label='Language', queryset=Language, required=True)
+    language = forms.ModelChoiceField(label='Language', queryset=Language.objects.all(), required=True)
     file = forms.FileField(required=True)
