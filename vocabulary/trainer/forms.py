@@ -9,6 +9,9 @@ class AddWordForm(forms.Form):
     language = forms.ModelChoiceField(queryset=Language.objects.all())
     word = forms.CharField(required=True)
 
+class CreateSetForm(forms.Form):
+    name = models.CharField(default="")
+
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(required=True)

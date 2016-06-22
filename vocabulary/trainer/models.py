@@ -44,6 +44,8 @@ class Set(models.Model):
     date_created = models.DateField(auto_now=True)
     owner = models.ForeignKey(User, unique=False)
     cards = models.ManyToManyField(Card)
+    first_language = models.ForeignKey(Language, related_name="first_language")
+    second_language = models.ForeignKey(Language, related_name="second_language")
 
     def __unicode__(self):
         return self.name
@@ -51,6 +53,7 @@ class Set(models.Model):
     class Meta:
         verbose_name = 'Set'
         verbose_name_plural = 'Sets'
+        unique_together = (("name", "owner"),)
 
 
 
